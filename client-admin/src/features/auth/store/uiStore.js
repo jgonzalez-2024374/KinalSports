@@ -11,9 +11,9 @@ export const useUIStore = create((set) => ({
 
     closeModal: () => set({ modal: null }),
 
-    openConfirm: ({ title, message, onClose, onCancel }) =>
+    openConfirm: ({ title, message, onConfirm, onCancel }) =>
         set({
-        modal: { title, message, onClose, onCancel }
+        confirm: { title, message, onConfirm, onCancel }
     }),
 
     closeConfirm: () => set({confirm: null})

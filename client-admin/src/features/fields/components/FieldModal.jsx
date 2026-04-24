@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useFieldsStore } from "../../users/store/adminStore";
+import { useFieldsStore } from "../../users/store/adminStore.js";
 import { Spinner } from "../../auth/components/Spinner.jsx";
 import { useSaveField } from "../../fields/hooks/useSaveField";
 import { showSuccess, showError } from "../../../shared/utils/toast.js";

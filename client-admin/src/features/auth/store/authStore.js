@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { login as loginRequest } from "../../../shared/apis/index.js"
+import { login as loginRequest, register } from "../../../shared/apis/index.js"
 import { showError } from "../../../shared/utils/toast.js"
  
 export const useAuthStore = create(
@@ -101,6 +101,22 @@ export const useAuthStore = create(
                     return { success: true}
                 }catch(err){
                     const message = err.response?.data?.message || "Error al iniciar sesión";
+                    set({error: message, loading: false});
+                    return {success: false, error: message}
+                }
+            },
+            register: async (formData) => {
+                try {
+                    set({ loading: true, error: null });
+                    const { data } = await register(formData);
+                    set({ loading: false });
+                    return{
+                        success: true,
+                        emailVerificationRequired: data?.emailVerificationRequired,
+                        data               
+                    }
+                } catch (err) {
+                      const message = err.response?.data?.message || "Error al registrar usuario";
                     set({error: message, loading: false});
                     return {success: false, error: message}
                 }

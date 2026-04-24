@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useFieldsStore } from "../../users/store/adminStore";
+import { useFieldsStore } from "../../users/store/adminStore.js";
 import { Spinner } from "../../auth/components/Spinner.jsx";
 import { FieldModal } from "./FieldModal.jsx";
 import { useUIStore } from "../../auth/store/uiStore.js";
@@ -7,7 +7,7 @@ import { useEffect as useToastEffect } from "react";
 import { showError } from "../../../shared/utils/toast.js";
  
 export const Fields = () => {
-  const { fields, loading, error, getFields } = useFieldsStore();
+  const { fields, loading, error, getFields, deleteField } = useFieldsStore();
   const [openModal, setOpenModal] = useState(false);
   const [selectedField, setSelectedField] = useState(null);
   const { openConfirm } = useUIStore();
@@ -103,7 +103,7 @@ export const Fields = () => {
                     openConfirm({
                       title: "Eliminar campo",
                       message: `¿Eliminar ${field.fieldName}?`,
-                      onConfirm: () => {},
+                      onConfirm: () => deleteField(field._id),
                     })
                   }
                 >
@@ -126,5 +126,6 @@ export const Fields = () => {
     </div>
   );
 };
+ 
  
  

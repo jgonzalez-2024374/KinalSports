@@ -430,5 +430,11 @@ public class AuthService(
 
         return MapToUserResponseDto(user);
     }
+
+    public async Task<IReadOnlyList<UserResponseDto>> GetAllUsersAsync()
+    {
+        var allUsers = await userRepository.GetAllAsync();
+        return allUsers.Select(u => MapToUserResponseDto(u)).ToList();
+    }
 }
 

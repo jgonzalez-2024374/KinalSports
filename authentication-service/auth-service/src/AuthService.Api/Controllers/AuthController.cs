@@ -37,4 +37,12 @@ public class AuthController(IAuthService authService) : ControllerBase
         var result = await authService.VerifyEmailAsync(verifyEmailDto);
         return Ok(result);
     }
+
+    [HttpGet("users")]
+    [EnableRateLimiting("ApiPolicy")]
+    public async Task<ActionResult<IReadOnlyList<UserResponseDto>>> GetAllUsers()
+    {
+        var users = await authService.GetAllUsersAsync();
+        return Ok(users);
+    }
 }

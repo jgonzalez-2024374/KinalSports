@@ -10,7 +10,12 @@ export const getAllUsers = async () => {
 };
 
 export const register = async (data) => {
-  return await axiosAuth.post('auth/register', data, {
+  return await axiosAuth.post('register', data, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 };
+
+//posible error agregar /auth
+export const verifyEmail = async (token) => {
+  return await axiosAuth.post('/verify-email', { token });
+}

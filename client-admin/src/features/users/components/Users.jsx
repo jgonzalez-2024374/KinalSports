@@ -10,10 +10,12 @@ const PAGE_SIZE = 8;
 
 export const Users = () => {
   // Solo lo necesario para listar
-  const { users, loading, error, getAllUsers } = useUserManagementStore();
+  const { users, loading: usersLoading, error: usersError, getAllUsers } = useUserManagementStore();
   // Funcionalidades no necesarias para listar (comentadas)
   // const { updateUserRole } = useUserManagementStore();
   const registerUser = useAuthStore((state) => state.register);
+  const authLoading = useAuthStore((state) => state.loading);
+  const authError = useAuthStore((state) => state.error);
   // const currentUser = useAuthStore((state) => state.user);
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState('ALL');
@@ -26,10 +28,10 @@ export const Users = () => {
     getAllUsers();
   }, [getAllUsers]);
   useEffect(() => {
-    if (error) {
-      showError(error);
+    if (usersError) {
+      showError(usersError);
     }
-  }, [error]);
+  }, [usersError]);
   const filteredUsers = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
     return users.filter((u) => {
@@ -73,13 +75,14 @@ export const Users = () => {
     const res = await registerUser(formData);
     if (res.success) {
       showSuccess('Usuario creado. Se envió correo de verificación.');
+      setOpenCreateModal(false);
       await getAllUsers(undefined, { force: true });
       return true;
     }
     showError(res.error || 'No se pudo crear el usuario');
     return false;
   };
-  if (loading && users.length === 0) return <Spinner />;
+  if (usersLoading && users.length === 0) return <Spinner />;
   return (
     <div className='p-4'>
       <div className='flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6'>
@@ -215,8 +218,8 @@ export const Users = () => {
         isOpen={openCreateModal}
         onClose={() => setOpenCreateModal(false)}
         onCreate={handleCreate}
-        loading={loading}
-        error={error}
+        loading={authLoading}
+        error={authError}
       />
 
       {/* Modal detalle/edición usuario (comentado por ahora) */}

@@ -7,6 +7,8 @@ import { CreateUserModal } from "./CreateUserModal.jsx";
 import { showError } from "../../../shared/utils/toast.js";
 import { showSuccess } from "../../../shared/utils/toast.js";
 const PAGE_SIZE = 8;
+
+
 export const Users = () => {
   // Solo lo necesario para listar
   const { users, loading, error, getAllUsers } = useUserManagementStore();
@@ -72,7 +74,7 @@ export const Users = () => {
     const res = await registerUser(formData);
     if (res.success) {
       showSuccess("Usuario creado. Se envió correo de verificación.");
-      await fetchUsers(undefined, { force: true });
+      await getAllUsers(undefined, { force: true });
       return true;
     }
     showError(res.error || "No se pudo crear el usuario");
